@@ -1,0 +1,41 @@
+// Amirov Timur, Group#11-2103
+import java.util.regex.*;
+
+public class Task3{
+	private static boolean validator(String text){
+		try{
+			Pattern pat = Pattern.compile("((\\$|€)\\d{1,}(\\.|,)\\d{1,2})|\\$|€\\d{1,}");
+			Matcher mat = pat.matcher(text);
+			boolean result = false;
+			if(mat.matches()){
+				return true;
+			}
+			return false;
+		} catch(PatternSyntaxException e){
+			System.out.println("Wrong regexp pattern");
+			return false;
+		  }
+	}
+	private static double exchange (String text){
+		double rub = 0;
+		double euro = 43.20;
+		double dollar = 31.91;
+
+		if(validator(text)){
+			char sign = text.charAt(0);
+			rub = Double.parseDouble(text.replaceAll("\\$|€", "").replaceAll(",", "."));
+			if(sign == '€'){
+				System.out.println("euro: "+rub);
+				rub *= euro;
+			} else {
+				System.out.println("dollar: "+rub);
+				rub *= dollar;
+			}
+			rub = ((double)Math.round(rub*100)/100);
+		}
+		return rub;
+	}
+	public static void main(String args[]) {
+		System.out.println("rubl " + exchange("$45.69"));
+	}
+}
